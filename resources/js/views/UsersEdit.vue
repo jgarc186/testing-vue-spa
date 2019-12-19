@@ -12,7 +12,8 @@
                 <input id="user_email" type="email" v-model="user.email" />
             </div>
             <div>
-                <button type="submit" :dissabled="saving">Update</button>
+                <button type="submit" :disabled="saving">Update</button>
+                <button type="submit" :disabled="saving" @click.prevent="onDelete($event)">Delete</button>
             </div>
         </form>
     </div>
@@ -49,6 +50,16 @@
                 }).catch(error => {
                     console.log(error)
                 }).then(_ => this.saving = false);
+            },
+
+            onDelete() {
+                this.saving = true;
+
+                api.delete(this.user.id)
+                    .then((response) => {
+                        this.message = "User has been deleted from the database!";
+                        setTimeout(() => this.$router.push({ name: 'users.index' }), 6000);
+                    });
             }
         },
         created() {
@@ -58,6 +69,11 @@
                         this.loaded = true;
                         this.user = response.data.data;
                     }, 2000);
+                })
+                .catch((err) => {
+                    this.$router.push({
+                        name: '404'
+                    });
                 });
         }
     };

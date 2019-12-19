@@ -1,11 +1,11 @@
 
-import axios from 'axios';
 import VueRouter from "vue-router";
 import App from './views/App';
 import Hello from './views/Hello';
 import Home from './views/Home';
 import UsersIndex from "./views/UsersIndex";
 import UsersEdit from "./views/UsersEdit";
+import NotFound from "./views/NotFound";
 
 window.Vue = require('vue');
 
@@ -34,6 +34,15 @@ const router = new VueRouter({
             path: '/users/:id/edit',
             name: 'users.edit',
             component: UsersEdit
+        },
+        {
+            path: '/404',
+            name: '404',
+            component: NotFound
+        },
+        {
+            path: '*',
+            redirect: '/404'
         }
     ]
 });
